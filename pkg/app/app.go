@@ -91,6 +91,7 @@ func (c *App) Handler() http.Handler {
 	router := mux.NewRouter()
 
 	// Instance Manager Routes
+	router.Handle("/v1/zones", c.Authenticate(c.listZones)).Methods("GET")
 	router.Handle("/v1/zones/{zone}/hosts", c.Authenticate(c.createHost)).Methods("POST")
 	router.Handle("/v1/zones/{zone}/hosts", c.Authenticate(c.listHosts)).Methods("GET")
 	// Waits for the specified operation to be DONE or for the request to approach the specified deadline,
@@ -222,6 +223,15 @@ func (a *App) injectCredentialsIntoCreateCVDRequest(r *http.Request, user accoun
 	// Replace the request body with a new reader for the reverse proxy to consume.
 	r.ContentLength = int64(len(buf))
 	r.Body = io.NopCloser(bytes.NewReader(buf))
+	return nil
+}
+
+func (c *App) listZones(w http.ResponseWriter, r *http.Request, user accounts.User) error {
+	res, err := c.instanceManager.ListZones()
+	if err != nil {
+		return err
+	}
+	replyJSON(w, res, http.StatusOK)
 	return nil
 }
 
