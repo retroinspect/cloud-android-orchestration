@@ -83,3 +83,9 @@ func (m *LocalInstanceManager) GetHostClient(zone string, host string) (HostClie
 	}
 	return NewNetHostClient(url, m.config.AllowSelfSignedHostSSLCertificate), nil
 }
+
+func (m *LocalInstanceManager) GetInfo() (*apiv1.Info, error) {
+	return &apiv1.Info{
+		RuntimeType: "local",
+	}, nil
+}

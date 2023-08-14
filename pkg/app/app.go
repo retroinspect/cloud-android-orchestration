@@ -116,6 +116,7 @@ func (c *App) Handler() http.Handler {
 	router.Handle("/oauth2callback", HTTPHandler(c.OAuth2Callback))
 	router.Handle("/deauth", c.Authenticate(c.DeAuthHandler)).Methods("GET")
 	router.Handle("/deauth", c.Authenticate(c.RescindAuthorizationHandler)).Methods("POST")
+	router.Handle("/info", c.Authenticate(c.InfoHandler)).Methods("GET")
 	router.Handle("/", c.Authenticate(indexHandler))
 
 	rootRouter := mux.NewRouter()
@@ -411,6 +412,16 @@ func (a *App) RescindAuthorizationHandler(w http.ResponseWriter, r *http.Request
 		return err
 	}
 	fmt.Fprintln(w, "Authorization rescinded")
+	return nil
+}
+
+func (a *App) InfoHandler(w http.ResponseWriter, r *http.Request, user accounts.User) error {
+	res, err := a.instanceManager.GetInfo()
+	if err != nil {
+		return nil
+	}
+
+	replyJSON(w, res, http.StatusOK)
 	return nil
 }
 

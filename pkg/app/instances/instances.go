@@ -34,6 +34,8 @@ type Manager interface {
 	WaitOperation(zone string, user accounts.User, name string) (any, error)
 	// Creates a connector to the given host.
 	GetHostClient(zone string, host string) (HostClient, error)
+	// Get information on runtime for the user
+	GetInfo() (*apiv1.Info, error)
 }
 
 type HostClient interface {

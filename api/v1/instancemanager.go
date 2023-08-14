@@ -52,3 +52,7 @@ type ListHostsResponse struct {
 	// paging through out all the results.
 	NextPageToken string `json:"nextPageToken,omitempty"`
 }
+
+type Info struct {
+	RuntimeType string `json:"type"`
+}

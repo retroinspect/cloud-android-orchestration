@@ -53,6 +53,28 @@ func (i *TestUser) Username() string {
 	return fakeUsername
 }
 
+func TestGetInfoSucceeds(t *testing.T) {
+	ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		replyJSON(w, &compute.Operation{})
+	}))
+	defer ts.Close()
+	testService := buildTestService(t, ts)
+	im := NewGCEInstanceManager(testConfig, testService, testNameGenerator)
+
+	resp, err := im.GetInfo()
+
+	if err != nil {
+		t.Errorf("expected <<nil>>, got %+v", err)
+	}
+
+	expectedType := "cloud"
+
+	if resp.RuntimeType != expectedType {
+		t.Errorf("expected <<%q>>, got %q", expectedType, resp.RuntimeType)
+
+	}
+}
+
 func TestCreateHostInvalidRequests(t *testing.T) {
 	ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		replyJSON(w, &compute.Operation{})

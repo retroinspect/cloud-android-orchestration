@@ -347,3 +347,9 @@ sudo -u vsoc-01 touch /home/vsoc-01/bin/restart_cvd
 printf '#!/bin/bash\nHOME=/var/lib/cuttlefish-common/runtimes /var/lib/cuttlefish-common/artifacts/acloud_link/bin/restart_cvd\n' | sudo -u vsoc-01 tee /home/vsoc-01/bin/restart_cvd >/dev/null
 sudo -u vsoc-01 chmod u+x /home/vsoc-01/bin/restart_cvd
 `
+
+func (m *GCEInstanceManager) GetInfo() (*apiv1.Info, error) {
+	return &apiv1.Info{
+		RuntimeType: "cloud",
+	}, nil
+}

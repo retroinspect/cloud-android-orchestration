@@ -89,6 +89,12 @@ func (m *testInstanceManager) GetHostClient(zone string, host string) (instances
 	return m.hostClientFactory(zone, host), nil
 }
 
+func (m *testInstanceManager) GetInfo() (*apiv1.Info, error) {
+	return &apiv1.Info{
+		RuntimeType: "test",
+	}, nil
+}
+
 type testHostClient struct {
 	url *url.URL
 }
@@ -520,6 +526,20 @@ func TestBadCSRFTokensInRescindAuth(t *testing.T) {
 		})
 	}
 
+}
+
+func TestGetInfoSucceeds(t *testing.T) {
+	controller := NewApp(&testInstanceManager{}, &testAccountManager{}, nil, nil, nil, "", config.WebRTCConfig{})
+	ts := httptest.NewServer(controller.Handler())
+	defer ts.Close()
+
+	res, _ := http.Get(ts.URL + "/info")
+
+	expected := http.StatusOK
+
+	if res.StatusCode != expected {
+		t.Errorf("unexpected status code <<%d>>, want: %d", res.StatusCode, expected)
+	}
 }
 
 func assertIsAppError(t *testing.T, err error) {
