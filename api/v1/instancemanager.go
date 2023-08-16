@@ -5,6 +5,10 @@ type CreateHostRequest struct {
 	HostInstance *HostInstance `json:"host_instance"`
 }
 
+type Zone struct {
+	Name string `json:"name"`
+}
+
 type HostInstance struct {
 	// [Output Only] Instance name.
 	Name string `json:"name,omitempty"`
@@ -43,6 +47,10 @@ type OperationResult struct {
 	Response string `json:"response,omitempty"`
 }
 
+type ListZonesResponse struct {
+	Items []*Zone `json:"items"`
+}
+
 type ListHostsResponse struct {
 	Items []*HostInstance `json:"items"`
 	// This token allows you to get the next page of results for list requests.
@@ -51,4 +59,8 @@ type ListHostsResponse struct {
 	// Subsequent list requests will have their own `nextPageToken` to continue
 	// paging through out all the results.
 	NextPageToken string `json:"nextPageToken,omitempty"`
+}
+
+type Info struct {
+	RuntimeType string `json:"type"`
 }

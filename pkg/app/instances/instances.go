@@ -22,6 +22,8 @@ import (
 )
 
 type Manager interface {
+	// List zones
+	ListZones() (*apiv1.ListZonesResponse, error)
 	// Creates a host instance.
 	CreateHost(zone string, req *apiv1.CreateHostRequest, user accounts.User) (*apiv1.Operation, error)
 	// List hosts
@@ -34,6 +36,8 @@ type Manager interface {
 	WaitOperation(zone string, user accounts.User, name string) (any, error)
 	// Creates a connector to the given host.
 	GetHostClient(zone string, host string) (HostClient, error)
+	// Get information on runtime for the user
+	GetInfo() (*apiv1.Info, error)
 }
 
 type HostClient interface {
