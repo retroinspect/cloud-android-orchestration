@@ -1,49 +1,43 @@
-WebStaticFilesPath = "web"
+WebStaticFilesPath = "third_party/cloud_android_orchestration/web"
 
 # List of allowed origins
 # e.g. "https://localhost:8080"
-CORSAllowedOrigins = []
+CORSAllowedOrigins = ["http://localhost:39183"]
 
 [AccountManager]
-Type = "unix"
+Type = "GCP"
 
 [AccountManager.OAuth2]
 Provider = "Google"
-RedirectURL = "http://localhost:8080/oauth2callback"
+RedirectURL = "https://cloud-android-orchestrator-dev.googleplex.com/oauth2callback"
 
 [SecretManager]
-Type = "unix"
+Type = "GCP"
 
 [SecretManager.GCP]
-OAuth2ClientResourceID = ""
-
-[SecretManager.UNIX]
-SecretFilePath = "../secrets.json"
+OAuth2ClientResourceID = "projects/137388570337/secrets/cloud-android-orchestrator-oauth-client/versions/latest"
 
 [EncryptionService]
-Type = "Fake"
+Type = "GCP_KMS"
 
-[EncryptionService.GCP_KMS]
-KeyName = ""
+[EncryptionService.GCPKMS]
+KeyName = "projects/google.com:cloud-android-orchestrator-dev/locations/global/keyRings/cloud-orchestrator/cryptoKeys/default"
 
 [DatabaseService]
-Type = "InMemory"
+Type = "Spanner"
 
 [DatabaseService.Spanner]
-DatabaseName = "projects/<project id>/instances/<instance id>/databases/<database>"
+DatabaseName = "projects/google.com:cloud-android-orchestrator-dev/instances/cloud-orchestrator-db/databases/cloud-android-orchestrator"
 
 [InstanceManager]
-Type = "unix"
-HostOrchestratorProtocol = "http"
+Type = "GCP"
+HostOrchestratorProtocol = "https"
 AllowSelfSignedHostSSLCertificate = true
 
 [InstanceManager.GCP]
-ProjectId = ""
-HostImageFamily = ""
-HostOrchestratorPort = 1080
-
-[InstanceManager.UNIX]
-HostOrchestratorPort = 1081
+ProjectID = "google.com:cloud-android-orchestrator-dev"
+HostImageFamily = "projects/google.com:cloud-android-orchestrator-dev/global/images/family/cuttlefish-orchestration-qa"
+HostOrchestratorPort = 1443
 
 [WebRTC]
 STUNServers = ["stun:stun.l.google.com:19302"]
