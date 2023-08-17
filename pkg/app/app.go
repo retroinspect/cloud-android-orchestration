@@ -84,8 +84,8 @@ func (c *App) AddCorsHeaderIfNeeded(w http.ResponseWriter, r *http.Request) {
 	for _, allowed := range c.corsAllowedOrigins {
 		if origin == allowed {
 			w.Header().Add("Access-Control-Allow-Origin", origin)
-			w.Header().Add("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, DELETE, HEAD")
-			w.Header().Add("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization")
+			w.Header().Add("Access-Control-Allow-Methods", "*")
+			w.Header().Add("Access-Control-Allow-Headers", "*")
 			w.Header().Add("Access-Control-Allow-Credentials", "true")
 			break
 		}
