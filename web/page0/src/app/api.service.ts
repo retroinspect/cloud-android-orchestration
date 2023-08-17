@@ -48,7 +48,10 @@ export class ApiService {
   }
 
   deleteHost(hostUrl: string) {
-    return this.httpClient.delete<void>(`${hostUrl}`);
+    return this.httpClient.delete<void>(`${hostUrl}`, {
+      // withCredentials: true
+      }
+    );
   }
 
   // Host Orchestrator Proxy Routes
